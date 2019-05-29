@@ -28,9 +28,11 @@ def get_terminal_size():
 def _get_terminal_size_windows():
     try:
         from ctypes import windll, create_string_buffer
-        # stdin handle is -10
-        # stdout handle is -11
-        # stderr handle is -12
+        '''
+        stdin handle is -10
+        stdout handle is -11
+        stderr handle is -12
+        '''
         h = windll.kernel32.GetStdHandle(-12)
         csbi = create_string_buffer(22)
         res = windll.kernel32.GetConsoleScreenBufferInfo(h, csbi)
@@ -46,7 +48,7 @@ def _get_terminal_size_windows():
  
 
 def _get_terminal_size_tput():
-    # get terminal width
+    '''get terminal width'''
     try:
         cols = int(subprocess.check_call(shlex.split('tput cols')))
         rows = int(subprocess.check_call(shlex.split('tput lines')))

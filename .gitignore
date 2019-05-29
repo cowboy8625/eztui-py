@@ -1,6 +1,9 @@
 
 .DS_Store
-/tui/.DS_Store
+__pycache__
 log.txt
 test.py
 Test.py
+MyModules
+.vscode/
+text.txt

@@ -47,3 +47,7 @@ class Window():
     def add_title(self, text):
         x = round(self.width / 2) - round(len(text) / 2)
         self.array2d.insert_at(text, x, 0)
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

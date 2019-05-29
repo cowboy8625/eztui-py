@@ -26,6 +26,7 @@ class Screen:
 
     def map(self):
         con_win = Window(self.WINDOW_LOCATIONS['map'][0],
+        
         self.WINDOW_LOCATIONS['map'][1], chr(9608))
         self.window_list.append(con_win)
 
@@ -47,3 +48,8 @@ class Screen:
 
     def clear(self):
         system('cls' if name == 'nt' else 'clear')
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

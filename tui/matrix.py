@@ -194,3 +194,6 @@ class Matrix:
             result.append(num + step)
         return result
 
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
