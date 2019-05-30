@@ -101,8 +101,8 @@ def test():
     print(square)
 
 if __name__ == "__main__":
-    # main()
+    main()
 
-    test()
+    # test()
     import doctest
     doctest.testmod()
