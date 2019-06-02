@@ -77,10 +77,10 @@ class Index:
 
     Test:
     ----
-    >>> root = Frame(cols=10, rows=10, char='0')
-    >>> p1 = Point(4,4)
-    >>> idx1 = Index(root, p1)
-    >>> idx1.index
+    #>>> root = Frame(cols=10, rows=10, char='0')
+    #>>> p1 = Point(4,4)
+    #>>> idx1 = Index(root, p1)
+    #>>> idx1.index
     44
     '''
 
@@ -177,9 +177,14 @@ class Grid:
             for _ in range(step):
                 t.pop(0)
         return result
-    
 
-class Shape(Grid, ABC):
+class Shape:
+    '''
+    Shape Factory
+    '''
+    pass 
+
+class BaseShape(Grid, ABC):
     '''
     Base Class
 
@@ -237,9 +242,11 @@ class Shape(Grid, ABC):
 
     def pack(self):
         '''adds shape to gird'''
-        self._get_outline_index_list()
-
+        # self._get_outline_index_list()
         self._draw()
+
+    def get_char(self, name):
+        return self.ELEMENTS[name][self.style]
 
     def _get_outline_index_list(self):
 
@@ -259,7 +266,7 @@ class Shape(Grid, ABC):
         return [(num + step) for num in cells]
 
 
-class Square(Shape):
+class Square(BaseShape):
     '''
     Description:
     -----------
@@ -290,13 +297,13 @@ class Square(Shape):
         pass
 
 
-class Rectangle(Shape):
+class Rectangle(BaseShape):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
 
-class Boarder(Shape):
+class Boarder(BaseShape):
     '''
     Boarder is a Base class to handle construction of 
     boarder lines around the widget class.
@@ -306,60 +313,72 @@ class Boarder(Shape):
     '''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__get_outline()
 
-    def _draw(self):
-        pass
 
     def place_at(self):
-        pass
+        raise NotImplemented
 
-    def __get_outline(self):
+    def _draw(self):
         
         self.root.grid_parse()
-        
-        index_list = self.root.grid_get_index()
-
-        top_horizontal_line = index_list[0]
-        bottom_horizontal_line = index_list[-1]
-        leftside_vertical_line = self.__get_vertical_index_list(index_list, 0)
-        rightside_vertical_line = self.__get_vertical_index_list(index_list, -1)
-
-        for idx in top_horizontal_line:
-            line_point = Point().fromIndex(self.root, idx)
-            self.root._grid[line_point.y][line_point.x] = self.ELEMENTS['hBoarder'][0]
-            del line_point
-
-
-        for idx in bottom_horizontal_line:
-            line_point = Point().fromIndex(self.root, idx)
-            self.root._grid[line_point.y][line_point.x] = self.ELEMENTS['hBoarder'][0]
-            del line_point
-
-        for idx in leftside_vertical_line:
-            line_point = Point().fromIndex(self.root, idx)
-            self.root._grid[line_point.y][line_point.x] = self.ELEMENTS['vBoarder'][0]
-            del line_point
-
-        for idx in rightside_vertical_line:
-            line_point = Point().fromIndex(self.root, idx)
-            self.root._grid[line_point.y][line_point.x] = self.ELEMENTS['vBoarder'][0]
-            del line_point
-
-        left_top_corner = Point().fromIndex(self.root, top_horizontal_line[0])
-        self.root._grid[left_top_corner.y][left_top_corner.x] = self.ELEMENTS['ltCorner'][0]
-        right_top_corner = Point().fromIndex(self.root, top_horizontal_line[-1])
-        self.root._grid[right_top_corner.y][right_top_corner.x] = self.ELEMENTS['rtCorner'][0]
-        left_bottom_corner = Point().fromIndex(self.root, bottom_horizontal_line[0])
-        self.root._grid[left_bottom_corner.y][left_bottom_corner.x] = self.ELEMENTS['lbCorner'][0]
-        right_bottom_corner = Point().fromIndex(self.root, bottom_horizontal_line[-1])
-        self.root._grid[right_bottom_corner.y][right_bottom_corner.x] = self.ELEMENTS['rbCorner'][0]
-        
-        
-        del index_list
-        
+        self.index_list = self.root.grid_get_index()
+        self.top_line()
+        self.bottom_line()
+        self.right_line()
+        self.left_line()
+        self.add_corners()
+        del self.index_list
         self.root.grid_list_to_string()
 
+    def top_line(self):
+
+        for idx in self.index_list[0]:
+            line_point = Point().fromIndex(self.root, idx)
+            self.root._grid[line_point.y][line_point.x] = self.get_char('hBoarder')
+            del line_point
+
+    def bottom_line(self):
+
+        for idx in self.index_list[-1]:
+            line_point = Point().fromIndex(self.root, idx)
+            self.root._grid[line_point.y][line_point.x] = self.get_char('hBoarder')
+            del line_point
+
+    def right_line(self):
+
+        for idx in self.__get_vertical_index_list(self.index_list, -1):
+            line_point = Point().fromIndex(self.root, idx)
+            self.root._grid[line_point.y][line_point.x] = self.get_char('vBoarder')
+            del line_point
+
+    def left_line(self):
+
+        for idx in self.__get_vertical_index_list(self.index_list, 0):
+            line_point = Point().fromIndex(self.root, idx)
+            self.root._grid[line_point.y][line_point.x] = self.get_char('vBoarder')
+            del line_point
+
+    def add_corners(self):
+        top_left, top_right, bottom_left, bottom_right = self.get_corner_index()
+
+        p1 = Point().fromIndex(self.root, top_left)
+        self.root._grid[p1.y][p1.x] = self.get_char('ltCorner')
+
+        p2 = Point().fromIndex(self.root, top_right)
+        self.root._grid[p2.y][p2.x] = self.get_char('rtCorner')
+
+        p3 = Point().fromIndex(self.root, bottom_left)
+        self.root._grid[p3.y][p3.x] = self.get_char('lbCorner')
+
+        p4 = Point().fromIndex(self.root, bottom_right)
+        self.root._grid[p4.y][p4.x] = self.get_char('rbCorner')
+
+    def get_corner_index(self):
+        top_left = self.index_list[0][0]
+        top_right = self.index_list[0][-1]
+        bottom_left = self.index_list[-1][0]
+        bottom_right = self.index_list[-1][-1]
+        return top_left, top_right, bottom_left, bottom_right
 
     @staticmethod
     def __get_vertical_index_list(grid, index):
@@ -454,7 +473,7 @@ class Frame(Widget):
 
 
 ##-- User interface --##
-
+#from TUI import Frame
 class App(Frame):
     '''
     How you would use the API
