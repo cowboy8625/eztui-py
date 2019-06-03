@@ -89,8 +89,8 @@ class Index:
         self.point = point
         self._index = self.__set_index(root, point)
 
-    def __repr__(self):
-        return self.index().__str__()
+    def __str__(self):
+        return self._index.__str__()
     
     @property
     def index(self):
@@ -179,10 +179,18 @@ class Grid:
         return result
 
 class Shape:
-    '''
-    Shape Factory
-    '''
-    pass 
+
+    # Shape Factory
+
+    def type_of(root, of_type):
+        of_type = of_type.lower()
+        if of_type == 'square':
+            return Square(root)
+        elif of_type == 'rectangle':
+            return Rectangle(root)
+
+
+
 
 class BaseShape(Grid, ABC):
     '''
@@ -229,36 +237,92 @@ class BaseShape(Grid, ABC):
         super().__init__(*args, **kwargs)
         self.root = root
         self.shape_points = None
-        self.start_point = Point()
+        self.start_point = Point(1, 1)
         self.style = style
 
     @abstractmethod
     def _draw(self):
         pass
 
-    @abstractmethod
-    def place_at():
-        pass
+    def resize(self, width, height):
+        self.size = Point(width, height)
 
     def pack(self):
         '''adds shape to gird'''
-        # self._get_outline_index_list()
         self._draw()
+    
+    def place_at(self, x, y):
+        self.start_point = Point(x, y)
 
-    def get_char(self, name):
+    def _get_char(self, name):
         return self.ELEMENTS[name][self.style]
 
     def _get_outline_index_list(self):
 
-        #TODO Refine to run off genorators.
-        result = []
-        starting_cell = (self.start_point.y * self.size.x) + self.start_point.x
-        ending_cell = (self.start_point.y * self.size.x) + self.size.x
-        first_row = [i for i in range(starting_cell, (ending_cell + 1))]
-        result.append(first_row)
-        for _ in range(self.size.y - 1):
-            result.append(self._add_to_list(result[-1], self.root.size.x))
-        self.index_list = result
+        s_cell = Index(self.root, self.start_point)
+        e_point = Point((self.start_point.x + self.size.x), self.start_point.y)
+        e_cell = Index(self.root, e_point)
+        first_row = [list(range(s_cell.index, e_cell.index))]
+        self.index_list = self._get_inner_shape_index_list(first_row)
+
+    def _get_inner_shape_index_list(self, row):
+        for i in range(self.size.y - 1):
+            row.append(self._add_to_list(row[-1], self.root.size.x))
+        return row
+
+    def top_line(self):
+
+        for idx in self.index_list[0]:
+            line_point = Point().fromIndex(self.root, idx)
+            self.root._grid[line_point.y][line_point.x] = self._get_char('hBoarder')
+            del line_point
+
+    def bottom_line(self):
+
+        for idx in self.index_list[-1]:
+            line_point = Point().fromIndex(self.root, idx)
+            self.root._grid[line_point.y][line_point.x] = self._get_char('hBoarder')
+            del line_point
+
+    def right_line(self):
+
+        for idx in self.__get_vertical_index_list(self.index_list, -1):
+            line_point = Point().fromIndex(self.root, idx)
+            self.root._grid[line_point.y][line_point.x] = self._get_char('vBoarder')
+            del line_point
+
+    def left_line(self):
+
+        for idx in self.__get_vertical_index_list(self.index_list, 0):
+            line_point = Point().fromIndex(self.root, idx)
+            self.root._grid[line_point.y][line_point.x] = self._get_char('vBoarder')
+            del line_point
+
+    def add_corners(self):
+        top_left, top_right, bottom_left, bottom_right = self.get_corner_index()
+
+        p1 = Point().fromIndex(self.root, top_left)
+        self.root._grid[p1.y][p1.x] = self._get_char('ltCorner')
+
+        p2 = Point().fromIndex(self.root, top_right)
+        self.root._grid[p2.y][p2.x] = self._get_char('rtCorner')
+
+        p3 = Point().fromIndex(self.root, bottom_left)
+        self.root._grid[p3.y][p3.x] = self._get_char('lbCorner')
+
+        p4 = Point().fromIndex(self.root, bottom_right)
+        self.root._grid[p4.y][p4.x] = self._get_char('rbCorner')
+
+    def get_corner_index(self):
+        top_left = self.index_list[0][0]
+        top_right = self.index_list[0][-1]
+        bottom_left = self.index_list[-1][0]
+        bottom_right = self.index_list[-1][-1]
+        return top_left, top_right, bottom_left, bottom_right
+
+    @staticmethod
+    def __get_vertical_index_list(grid, index):
+        return [line[index] for line in grid]
 
     @staticmethod
     def _add_to_list(cells, step):
@@ -272,35 +336,36 @@ class Square(BaseShape):
     -----------
         Draws a Square in a Frame.
 
-    Parameters
-    ----------
-        root: Frame
-            takes frame object to place all Shapes on.
-        FROM GRID
-        ---------
-        cols: int = 5
-            aka how width the screen will be.
-        rows: int = 5
-            aka how tall/height the screen will be
-        char: chr, str = chr(9617)
-            aka what is the place holder.
-            can be a space ' '.
     '''
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def _draw(self):
-        pass
-
-    def place_at(self):
-        pass
+        self._get_outline_index_list()
+        self.root.grid_parse()
+        self.top_line()
+        self.bottom_line()
+        self.right_line()
+        self.left_line()
+        self.add_corners()
+        del self.index_list
+        self.root.grid_list_to_string()
 
 
 class Rectangle(BaseShape):
-
+    '''
+        Description:
+    -----------
+        Draws a Rectangle in a Frame.
+    '''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def _draw(self):
+        print('Rectangle has been drawn.')
+        self._get_outline_index_list()
+        print(self.index_list)
 
 
 class Boarder(BaseShape):
@@ -314,12 +379,13 @@ class Boarder(BaseShape):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-
     def place_at(self):
         raise NotImplemented
 
-    def _draw(self):
+    def resize(self, width, height):
+        raise NotImplemented
         
+    def _draw(self):
         self.root.grid_parse()
         self.index_list = self.root.grid_get_index()
         self.top_line()
@@ -330,59 +396,7 @@ class Boarder(BaseShape):
         del self.index_list
         self.root.grid_list_to_string()
 
-    def top_line(self):
-
-        for idx in self.index_list[0]:
-            line_point = Point().fromIndex(self.root, idx)
-            self.root._grid[line_point.y][line_point.x] = self.get_char('hBoarder')
-            del line_point
-
-    def bottom_line(self):
-
-        for idx in self.index_list[-1]:
-            line_point = Point().fromIndex(self.root, idx)
-            self.root._grid[line_point.y][line_point.x] = self.get_char('hBoarder')
-            del line_point
-
-    def right_line(self):
-
-        for idx in self.__get_vertical_index_list(self.index_list, -1):
-            line_point = Point().fromIndex(self.root, idx)
-            self.root._grid[line_point.y][line_point.x] = self.get_char('vBoarder')
-            del line_point
-
-    def left_line(self):
-
-        for idx in self.__get_vertical_index_list(self.index_list, 0):
-            line_point = Point().fromIndex(self.root, idx)
-            self.root._grid[line_point.y][line_point.x] = self.get_char('vBoarder')
-            del line_point
-
-    def add_corners(self):
-        top_left, top_right, bottom_left, bottom_right = self.get_corner_index()
-
-        p1 = Point().fromIndex(self.root, top_left)
-        self.root._grid[p1.y][p1.x] = self.get_char('ltCorner')
-
-        p2 = Point().fromIndex(self.root, top_right)
-        self.root._grid[p2.y][p2.x] = self.get_char('rtCorner')
-
-        p3 = Point().fromIndex(self.root, bottom_left)
-        self.root._grid[p3.y][p3.x] = self.get_char('lbCorner')
-
-        p4 = Point().fromIndex(self.root, bottom_right)
-        self.root._grid[p4.y][p4.x] = self.get_char('rbCorner')
-
-    def get_corner_index(self):
-        top_left = self.index_list[0][0]
-        top_right = self.index_list[0][-1]
-        bottom_left = self.index_list[-1][0]
-        bottom_right = self.index_list[-1][-1]
-        return top_left, top_right, bottom_left, bottom_right
-
-    @staticmethod
-    def __get_vertical_index_list(grid, index):
-        return [line[index] for line in grid]
+    
     
 
 
@@ -484,7 +498,11 @@ class App(Frame):
         self.initTUI()
 
     def initTUI(self):
-
+        
+        self.shape = Shape.type_of(self.master, "Square")
+        self.shape.place_at(5,5)
+        self.shape.resize(20, 10)
+        self.shape.pack()
         self.master.pack()
 
 
