@@ -124,8 +124,8 @@ class Window:
     '''
     @staticmethod
     def win_pack(item):
-        stdout.writelines(item + '\n')
     
+        stdout.writelines(item + '\n')
     @staticmethod
     def clear():
         system('cls' if name == 'nt' else 'clear')
@@ -219,7 +219,7 @@ class BaseShape(Grid, ABC):
     '''
     ELEMENTS = {
         'hBoarder': [chr(9552), chr(9472), chr(9473)],
-        'vBoarder': [chr(9553), chr(9474), chr(9475)],
+        'vBoarder': [chr(9553), '|', chr(9475)], # chr(9474)
         'lTee': [chr(9571), chr(9508), chr(9515)],
         'rTee': [chr(9568), chr(9500), chr(9507)],
         'tTee': [chr(9574), chr(9516), chr(9523)],
@@ -233,7 +233,7 @@ class BaseShape(Grid, ABC):
         'cross': [chr(9580), chr(9532), chr(9547)]
         }
 
-    def __init__(self, root=None, style=0, *args, **kwargs):
+    def __init__(self, root=None, style=1, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.root = root
         self.shape_points = None
@@ -507,7 +507,7 @@ class App(Frame):
         
         self.shape = Shape.type_of(self.master, "Square")
         self.shape.place_at(5,5)
-        self.shape.resize(20, 20)
+        self.shape.resize(30, 30)
         self.shape.pack()
         self.master.pack()
 
