@@ -341,7 +341,13 @@ class Square(BaseShape):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    def resize(self, width, height):
+        self.size = Point(round(width * 2.5), height)
+    
     def _draw(self):
+        # Wrong Areafor this to be in!
+        # self.size.x *= 2
+        # -----------
         self._get_outline_index_list()
         self.root.grid_parse()
         self.top_line()
@@ -384,7 +390,7 @@ class Boarder(BaseShape):
 
     def resize(self, width, height):
         raise NotImplemented
-        
+
     def _draw(self):
         self.root.grid_parse()
         self.index_list = self.root.grid_get_index()
@@ -501,7 +507,7 @@ class App(Frame):
         
         self.shape = Shape.type_of(self.master, "Square")
         self.shape.place_at(5,5)
-        self.shape.resize(20, 10)
+        self.shape.resize(20, 20)
         self.shape.pack()
         self.master.pack()
 
