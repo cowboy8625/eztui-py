@@ -152,7 +152,7 @@ class BaseShape(Grid, ABC):
     def move(self, x, y):
         self.start_point.x += x
         self.start_point.y += y
-        self.pack()
+        self._draw()
 
     def place_at(self, x, y):
         self.start_point = Point(x, y)
@@ -438,9 +438,8 @@ class Tui(Frame):
                 del event
 
     def mainloop(self):
-        self.pack()
         while True:
-
+            self.pack()
             self.count += self.TICKS
             self._exc()
             sleep(self.TICKS)
