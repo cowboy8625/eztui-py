@@ -15,7 +15,8 @@ class App(Frame):
         self.root.window_geometry(rows=100, cols=30)
         self.shape = Shape().type_of(root, "square")
         self.shape.pack()
-        self.root.after(2, self.move_shape)
+        # self.root.after(2, self.move_shape)
+        self.move_shape()
         self.root.mainloop()
 
     def move_shape(self):
