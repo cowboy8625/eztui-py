@@ -400,10 +400,10 @@ class Frame(Widget):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.boarder = Boarder(self)
         self.init_boarder()
 
     def init_boarder(self):
+        self.boarder = Boarder(self)
         self.boarder.pack()
 
     def clear(self):
