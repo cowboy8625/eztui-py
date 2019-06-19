@@ -6,6 +6,7 @@ from time import sleep
 from types import FunctionType, MethodType
 
 from .vectors import Index, Point
+from .keyboard import getchar
 
 
 class Window:
@@ -428,6 +429,8 @@ class Tui(Frame):
         super().__init__(*args, **kwargs)
         self.count = 0.0
         self.events = []
+        self.key = None
+        self.key_len = 5
 
     def after(self, delay, func):
         delay = self.add_float(delay, self.count)
@@ -439,6 +442,15 @@ class Tui(Frame):
         self.size.reset(rows, cols)
         self.grid_construct_grid()
         self.boarder.pack()
+
+    def is_pressed(self, key, event=None):
+        self.key_len = len(key)
+        if self.key != None:
+            if key == self.key:
+                if event == None:
+                    return True
+                else:
+                    event()
 
     def _exc(self):
         ran_methods = 0
@@ -461,6 +473,7 @@ class Tui(Frame):
 
     def mainloop(self):
         while True:
+            self.key = getchar(self.key_len)
             self.pack()
             self.advance_count()
             self._exc()

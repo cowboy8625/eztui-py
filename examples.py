@@ -1,5 +1,4 @@
 from TUI import Frame, Tui, Shape
-from TUI.keyboard import getchar
 
 
 class App(Frame):
@@ -15,34 +14,37 @@ class App(Frame):
         self.root.window_geometry(rows=100, cols=30)
         self.shape = Shape().type_of(root, "square")
         self.shape.pack()
-        self.move_shape()
+        self.move()
         self.root.mainloop()
 
-    def move_shape(self):
-        # x, y = self.shape.get_location()
-        # x += 1
-        # y += 1
-        # self.shape.place_at(x, y)
-        key = getchar()
+    def move(self):
         # up
-        if key == "w":
-            self.root.clear()
-            self.shape.move(0, -1)
+        self.root.is_pressed("w", self.up)  # key you want to active event, the event
         # down
-        elif key == "s":
-            self.root.clear()
-            self.shape.move(0, 1)
+        self.root.is_pressed("s", self.down)
         # left
-        elif key == "a":
-            self.root.clear()
-            self.shape.move(-1, 0)
+        self.root.is_pressed("a", self.left)
         # right
-        elif key == "d":
-            self.root.clear()
-            self.shape.move(1, 0)
-        elif key == "q":
-            exit()
-        self.root.after(0.2, self.move_shape)
+        self.root.is_pressed("d", self.right)
+        # exit
+        self.root.is_pressed("q", exit)
+        self.root.after(0.1, self.move)
+
+    def up(self):
+        self.root.clear()
+        self.shape.move(0, -1)
+
+    def down(self):
+        self.root.clear()
+        self.shape.move(0, 1)
+
+    def left(self):
+        self.root.clear()
+        self.shape.move(-1, 0)
+
+    def right(self):
+        self.root.clear()
+        self.shape.move(1, 0)
 
 
 if __name__ == "__main__":
