@@ -13,4 +13,5 @@ JUP.py
 __init__.pyc
 evn
 env
-Int
+._.DS_Store
+player_input.py
