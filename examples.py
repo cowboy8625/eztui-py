@@ -1,4 +1,4 @@
-from TUI import Frame, Tui, Shape
+from TUI import Frame, Tui, Shape, safe_run
 
 
 class App(Frame):
@@ -12,7 +12,7 @@ class App(Frame):
 
     def initTUI(self):
         self.root.window_geometry(rows=100, cols=30)
-        self.shape = Shape().type_of(root, "square")
+        self.shape = Shape().type_of(self.root, "square")
         self.shape.pack()
         self.move()
         self.root.mainloop()
@@ -48,5 +48,7 @@ class App(Frame):
 
 
 if __name__ == "__main__":
-    root = Tui()
-    app = App(root)
+    # root = Tui()
+    # app = App(root)
+    safe_run(Tui, App)
+

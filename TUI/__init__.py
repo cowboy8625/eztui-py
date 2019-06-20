@@ -1,3 +1,5 @@
+##-- Imports --##
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from os import name, system
@@ -5,8 +7,15 @@ from sys import stdout
 from time import sleep
 from types import FunctionType, MethodType
 
+##-- Custom Imports --##
+
 from .vectors import Index, Point
 from .keyboard import getchar
+from .curser_control import hide, show
+from .terminal_size import get_terminal_size
+
+
+##-- Window manager class --##
 
 
 class Window:
@@ -22,6 +31,9 @@ class Window:
 
     def win_clear(self):
         system("cls" if name == "nt" else "clear")
+
+
+##-- 2D Array class --##
 
 
 class Grid:
@@ -77,6 +89,9 @@ class Grid:
             for _ in range(step):
                 t.pop(0)
         return result
+
+
+##-- Shape classes --##
 
 
 class Shape:
@@ -315,6 +330,9 @@ class Boarder(BaseShape):
         self.root.grid_list_to_string()
 
 
+##-- GUI ish classes --##
+
+
 class Widget(Grid, Window):
     """
     Base class for all widgets
@@ -412,10 +430,16 @@ class Frame(Widget):
         self.init_boarder()
 
 
+##-- Event Class --##
+
+
 @dataclass
 class Event:
     time_of: float
     method: FunctionType or MethodType
+
+
+##-- State Class --##
 
 
 class Tui(Frame):
@@ -437,9 +461,24 @@ class Tui(Frame):
         event = Event(delay, func)
         self.events.append(event)
 
-    def window_geometry(self, *, rows=None, cols=None):
-        """Sets the Size of the bass Frame"""
-        self.size.reset(rows, cols)
+    def window_geometry(self, *, rows=None, cols=None, fullscreen=False):
+        """
+        Sets the Size of the bass Frame
+        
+        Parameters: KEYWORDS
+            rows:
+                width
+            cols:
+                height
+
+            fullscreen:
+                default: False, set to True will grab screen size.
+        """
+        if fullscreen:
+            rows, cols = get_terminal_size()
+            self.size.reset(rows, cols - 1)
+        else:
+            self.size.reset(rows, cols)
         self.grid_construct_grid()
         self.boarder.pack()
 
@@ -472,7 +511,9 @@ class Tui(Frame):
         self.count = self.add_float(self.count, self.TICKS)
 
     def mainloop(self):
+
         while True:
+
             self.key = getchar(self.key_len)
             self.pack()
             self.advance_count()
@@ -482,3 +523,18 @@ class Tui(Frame):
     @staticmethod
     def add_float(num1, num2):
         return round(num1 + num2, 1)
+
+
+##-- SafeOpen --##
+
+
+def safe_run(app):
+    try:
+        hide()
+        root = Tui()
+        app(root)
+    except KeyboardInterrupt:
+        raise
+
+    finally:
+        show()
