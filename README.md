@@ -10,5 +10,13 @@
 # Screen Shot
 This is what I have so far, not much but it's a work in progress.
 
-![Screen Shot 2019-06-03 at 7 34 55 AM](https://user-images.githubusercontent.com/43012445/58806539-02ee9400-85dc-11e9-8a8b-f6ea780dfc29.png)
 
+Placement of objects on screen and move it with key bindings.
+
+![Movement](https://user-images.githubusercontent.com/43012445/59881361-007a9100-9375-11e9-942a-848c0c88d926.gif)
+
+Automatic detection of terminal size, not yet dynamically made. Only finds
+size of terminal when being created so if you resize the terminal the program will not 
+know....yet
+
+![FullScreen](https://user-images.githubusercontent.com/43012445/59881653-bcd45700-9375-11e9-91d2-c6bd90662475.gif)

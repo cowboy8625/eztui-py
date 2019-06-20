@@ -48,7 +48,5 @@ class App(Frame):
 
 
 if __name__ == "__main__":
-    # root = Tui()
-    # app = App(root)
-    safe_run(Tui, App)
+    safe_run(App)
 
