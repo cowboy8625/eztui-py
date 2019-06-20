@@ -1,10 +1,15 @@
 # TUI
+vision support python 3.7 and above.
+The use of Data Classes are use.
 
-# TODO:
+keyboard support only on:
+Mac
+Linux
 
-* Add way to place text in Widgets
-* Add add a constant loop for program.
-* Add Color
+
+# Reason For Using this module.
+    Really there is is not reason, I only mad this to have something to do and 
+build my knowledge in python.  I will though make a few games with it after I get this module working.  Lots and lots of work ahead still.
 
 
 # Screen Shot
@@ -19,4 +24,12 @@ Automatic detection of terminal size, not yet dynamically made. Only finds
 size of terminal when being created so if you resize the terminal the program will not 
 know....yet
 
-![FullScreen](https://user-images.githubusercontent.com/43012445/59881653-bcd45700-9375-11e9-91d2-c6bd90662475.gif)
+![FullScreen](https://user-images.githubusercontent.com/43012445/59881653-bcd45700-9375-11e9-91d2-c6bd90662475.gif)`
+
+
+# TODO:
+
+* Add way to place text in Widgets
+* add keyboard support for Windows
+* Add Color
+* Refactor existing code.
