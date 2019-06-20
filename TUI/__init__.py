@@ -365,8 +365,16 @@ class Label(Widget):
             can be a space ' '.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, text, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.text = text
+
+    def update(self, text):
+        self.pack()
+
+    def pack(self):
+        pass
+
 
 
 class MessageBox(Widget):

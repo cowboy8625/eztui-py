@@ -8,7 +8,7 @@ Linux
 
 
 # Reason For Using this module.
-    Really there is is not reason, I only mad this to have something to do and 
+    Really there is is not reason, I only made this to have something to do and 
 build my knowledge in python.  I will though make a few games with it after I get this module working.  Lots and lots of work ahead still.
 
 
