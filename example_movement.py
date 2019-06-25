@@ -11,8 +11,8 @@ class App(Frame):
         self.initTUI()
 
     def initTUI(self):
-        self.root.window_geometry(rows=100, cols=30)
-        self.shape = Shape().type_of(self.root, "square")
+        self.root.window_geometry(cols=100, rows=30)
+        self.shape = Shape.type_of(self.root, "rectangle")
         self.shape.pack()
         self.move()
         self.root.mainloop()
@@ -28,6 +28,7 @@ class App(Frame):
         self.root.is_pressed("d", self.right)
         # exit
         self.root.is_pressed("q", exit)
+
         self.root.after(0.1, self.move)
 
     def up(self):

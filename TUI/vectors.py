@@ -100,6 +100,65 @@ class Index:
         return (point.y * root.size.x) + point.x  # (y * width) + x
 
 
+##-- TextPoint Class for handling any type of text parsing --##
+
+
+class GridPoint:
+    def __init__(self, root):
+        self.root = root
+        self.grid = self.init_text(root._grid)
+        self.col = -1
+        self.row = 0
+        self.current_char = None
+        self.advance()
+
+    def __repr__(self):
+        return f"{self.current_char}"
+
+    def __len__(self):
+        return len("".join(self.root._grid.split("\n")))
+
+    @property
+    def index(self):
+        return Index(self.root, Point(self.col, self.row)).index
+
+    def advance(self):
+        try:
+            self.current_char = next(self.grid)
+            if self.current_char != "\n":
+                self.col += 1
+            else:
+                self.col = 0
+                self.row += 1
+                self.advance()
+        except StopIteration:
+            self.current_char == None
+
+    def init_text(self, text):
+        for i in text:
+            yield i
+
+
+class TextPoint:
+    def __init__(self, text, start):
+        self.text = self.init_text(text)
+        self.start = start
+        self.pos = -1
+        self.current_char = None
+        self.advance()
+
+    def advance(self):
+        try:
+            self.current_char = next(self.text)
+            self.pos += 1
+        except:
+            self.current_char = None
+
+    def init_text(self, text):
+        for i in text:
+            yield i
+
+
 if __name__ == "__main__":
     import doctest
 
