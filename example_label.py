@@ -1,4 +1,4 @@
-from TUI import Frame, Label, Tui
+from CommandLineApp import Frame, Label, Tui
 
 
 class App(Frame):

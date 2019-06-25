@@ -524,7 +524,7 @@ class Tui(Frame):
         event = Event(delay, func)
         self.events.append(event)
 
-    def window_geometry(self, *, cols=None, rows=None, fullscreen=False):
+    def window_geometry(self, cols=None, rows=None, fullscreen=False):
         """
         Sets the Size of the bass Frame
         

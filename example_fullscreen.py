@@ -1,4 +1,4 @@
-from TUI import Frame, Tui, safe_run
+from CommandLineApp import Frame, Tui, safe_run
 
 """
 This is how you get full screen.  
