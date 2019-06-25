@@ -1,4 +1,4 @@
-from CommandLineApp import Frame, Tui, safe_run, Label
+from TerminalApp import Frame, Tui, safe_run, Label
 
 
 class App(Frame):

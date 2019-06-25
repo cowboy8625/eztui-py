@@ -17,3 +17,5 @@ env
 player_input.py
 test.java
 setup.py
+/src
+/dist

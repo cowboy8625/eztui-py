@@ -1,4 +1,4 @@
-from CommandLineApp import Frame, Tui, Shape, safe_run
+from TerminalApp import Frame, Tui, Shape, safe_run
 
 
 class App(Frame):
