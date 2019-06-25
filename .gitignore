@@ -16,3 +16,4 @@ env
 ._.DS_Store
 player_input.py
 test.java
+setup.py
