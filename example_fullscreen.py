@@ -1,4 +1,4 @@
-from TerminalApp import Frame, Tui, safe_run
+from terminalapp import Frame, Tui, safe_run
 
 """
 This is how you get full screen.  

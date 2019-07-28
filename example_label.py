@@ -1,4 +1,4 @@
-from TerminalApp import Frame, Label, Tui
+from terminalapp import Frame, Label, Tui, mainloop
 
 
 class App(Frame):
@@ -10,9 +10,10 @@ class App(Frame):
         self.root.window_geometry(cols=100, rows=30)
         self.label = Label(self.root, "Hello World", anchor=(1, 1), cols=20, rows=4)
         self.label.pack()
-        self.root.mainloop()
 
 
 if __name__ == "__main__":
     root = Tui()
     app = App(root)
+    mainloop(root)
+

@@ -1,4 +1,4 @@
-from TerminalApp import Frame, Tui, Shape, safe_run
+from terminalapp import Frame, Tui, Shape, mainloop
 
 
 class App(Frame):
@@ -14,8 +14,7 @@ class App(Frame):
         self.root.window_geometry(cols=100, rows=30)
         self.shape = Shape.type_of(self.root, "rectangle")
         self.shape.pack()
-        self.move()
-        self.root.mainloop()
+        self.move() 
 
     def move(self):
         # up
@@ -49,5 +48,7 @@ class App(Frame):
 
 
 if __name__ == "__main__":
-    safe_run(App)
+    root = Tui()
+    app = App(root)
+    mainloop(root)
 
