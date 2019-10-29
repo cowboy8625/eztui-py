@@ -1,0 +1,7 @@
+#!/home/cowboy8625/Documents/GitHub/TUI/venv/bin/python
+# EASY-INSTALL-DEV-SCRIPT: 'tui==0.1.0','tui'
+__requires__ = 'tui==0.1.0'
+__import__('pkg_resources').require('tui==0.1.0')
+__file__ = '/home/cowboy8625/Documents/GitHub/TUI/bin/tui'
+with open(__file__) as f:
+    exec(compile(f.read(), __file__, 'exec'))

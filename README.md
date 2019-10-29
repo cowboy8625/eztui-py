@@ -1,11 +1,24 @@
-# Terminal App
-module v 0.0.1
-python v3.7 and above.
-The use of Data Classes are use.
+# CLITUI
+
+
+## Installing
+```
+pip install clitui
+```
+
+module v 0.1.0
 
 keyboard support only on:
 Mac
 Linux
+
+TUI is a module for making custom CLI/Console App's with python
+
+
+## Terminal suport
+[x] Mac
+[X] Linux
+[ ] Windows CMD
 
 ## Features
 * Label's
@@ -32,6 +45,13 @@ module working. Lots and lots of work ahead still.
 ### Screen Shot
 This is what I have so far, not much but it's a work in progress.
 
+To get this example do
+```
+clitui
+```
+in terminal and watch it rain!
+
+![](https://user-images.githubusercontent.com/43012445/67812482-4bb45700-fa6d-11e9-8ce9-504af8e0a6d7.png)
 
 You can place Labels
 It's not perfect but it works pretty well.
@@ -51,6 +71,5 @@ know....yet
 
 ### TODO:
 
-* Add Color
 * add keyboard support for Windows
 * Refactor existing code.
