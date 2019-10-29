@@ -12,7 +12,7 @@ text.txt
 JUP.py
 __init__.pyc
 evn
-env
+venv
 ._.DS_Store
 player_input.py
 test.java
