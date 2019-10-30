@@ -15,7 +15,11 @@ evn
 venv
 ._.DS_Store
 player_input.py
-test.java
 setup.py
 /src
 /dist
+/build
+build
+/bin
+*.egg-info
+.ropeproject
