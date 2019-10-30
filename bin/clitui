@@ -3,15 +3,25 @@ from sys import argv
 
 first = argv[1]
 
-if first == "matrix":
+
+def matrix():
     from clitui.matrix_rain import Screen, safe_run
 
     screen = Screen(fullscreen=True, amount="half")
     safe_run(screen.render)
 
-if first == "creator":
-    print("Cowboy8625")
 
-else:
-    print(first)
+def menu():
+    from clitui.example_menu import test
 
+    test()
+
+
+def arg_switch(k):
+    return {"matrix": matrix, "menu": menu}.get(
+        k, lambda: print(f"'{k}' is not a option")
+    )
+
+
+program = arg_switch(first)
+program()
