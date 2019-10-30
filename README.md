@@ -16,9 +16,9 @@ TUI is a module for making custom CLI/Console App's with python
 
 
 ## Terminal suport
-[x] Mac
-[X] Linux
-[ ] Windows CMD
+- [x] Mac
+- [X] Linux
+- [ ] Windows CMD
 
 ## Features
 * Label's
@@ -55,21 +55,22 @@ in terminal and watch it rain!
 
 You can place Labels
 It's not perfect but it works pretty well.
+Not stable
 
 ![](https://user-images.githubusercontent.com/43012445/60067666-208db580-96d1-11e9-85c4-b04c7941b694.gif)
 
 Placement of objects on screen and move it with key bindings.
+Not stable
 
 ![Movement](https://user-images.githubusercontent.com/43012445/59881361-007a9100-9375-11e9-942a-848c0c88d926.gif)
 
 Automatic detection of terminal size, not yet dynamically made. Only finds
-size of terminal when being created so if you resize the terminal the program will not 
-know....yet
+size of terminal when being created so if you resize the terminal the program will not.
 
 ![FullScreen](https://user-images.githubusercontent.com/43012445/59881653-bcd45700-9375-11e9-91d2-c6bd90662475.gif)`
 
 
 ### TODO:
-
+* 
 * add keyboard support for Windows
 * Refactor existing code.
