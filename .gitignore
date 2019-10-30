@@ -21,5 +21,5 @@ setup.py
 /build
 build
 /bin
-*.egg-info
+/*.egg-info
 .ropeproject
