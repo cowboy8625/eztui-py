@@ -46,7 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/cowboy8625/Documents/GitHub/TUI/venv"
+VIRTUAL_ENV="/home/cowboy8625/Documents/GitHub/CLITUI/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

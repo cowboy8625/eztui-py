@@ -1,0 +1,10 @@
+#!/home/cowboy8625/Documents/GitHub/CLITUI/venv/bin/python
+
+from clitui.matrix_rain import Screen
+from clitui.terminal_size import get_terminal_size
+
+
+max_x, max_y = get_terminal_size()
+screen = Screen(max_x, max_y, amount=int(max_x // 2))
+screen.render()
+

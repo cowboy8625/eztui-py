@@ -1,5 +1,7 @@
 README.md
 setup.py
+bin/clitui
+bin/clitui.bat
 clitui/__init__.py
 clitui/__main__.py
 clitui/asciiesc.py

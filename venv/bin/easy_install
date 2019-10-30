@@ -1,4 +1,4 @@
-#!/home/cowboy8625/Documents/GitHub/TUI/venv/bin/python
+#!/home/cowboy8625/Documents/GitHub/CLITUI/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

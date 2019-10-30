@@ -47,11 +47,11 @@ This is what I have so far, not much but it's a work in progress.
 
 To get this example do
 ```
-clitui
+clitui matrix
 ```
 in terminal and watch it rain!
 
-![](https://user-images.githubusercontent.com/43012445/67812482-4bb45700-fa6d-11e9-8ce9-504af8e0a6d7.png)
+![matrix_rain2](https://user-images.githubusercontent.com/43012445/67877665-fbd69e00-fb07-11e9-8093-794dd2f8a66f.gif)
 
 You can place Labels
 It's not perfect but it works pretty well.

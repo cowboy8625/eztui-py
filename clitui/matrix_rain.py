@@ -9,12 +9,48 @@ from .terminal_size import get_terminal_size
 from .curser_control import show, hide
 
 
+def safe_run(func):
+    clear_screen()
+    hide()
+    try:
+        func()
+    except:
+        pass
+    finally:
+        clear_screen()
+        show()
+
+
+def ran_color():
+    return choice(
+        [
+            # "red",
+            "green",
+            # "yellow",
+            # "blue",
+            # "magenta",
+            # "cyan",
+            # "white",
+            # "bright black",
+            # "bright red",
+            # "bright yellow",
+            "bright green",
+            # "bright blue",
+            # "bright magenta",
+            # "bright cyan",
+            # "bright white",
+        ]
+    )
+
+
 class Rain:
-    def __init__(self, width, height, length, idx=None, x=None, y=None):
+    def __init__(self, width, height, length, idx=None, x=None, y=None, color="green"):
         self.width = width
         self.height = height
         self.length = length
         self.loc_options = (idx, x, y)
+        self.color = color
+        self.last = None
         self.make_points()
         self.loc = iter(self.points)
         self.tail = []
@@ -49,50 +85,90 @@ class Rain:
             else:
                 point = None
                 tail = None
-        return point, tail
+        return point, tail, self.color
+
+    def last_update(self, char, point):
+        if point is None:
+            self.last = None
+        else:
+            x, y = point
+            self.last = (char, x, y)
 
 
 class Screen:
-    def __init__(self, width, height, amount=20, max_rain=(5, 10)):
+    def __init__(
+        self, width=10, height=20, fullscreen=True, amount=20, max_rain=(9, 5)
+    ):
         self.dim = Vector2(width, height)
-        self.amount = amount
+        self.fullscreen = fullscreen
+        self.check_screen_size()
+        self._amount = amount
+        self.amount = self._set_amount()
         self.max_rain = max_rain
         self.rain = [
-            Rain(width, height, self.tail_len(), idx=self.ran_loc(anywhere=True))
+            Rain(
+                self.dim.x,
+                self.dim.y,
+                self.tail_len(),
+                idx=self.ran_loc(anywhere=True),
+                color=ran_color(),
+            )
             for _ in range(self.amount)
         ]
 
+    def _set_amount(self):
+        if self._amount == "half":
+            return self.dim.x // 2
+        else:
+            return self._amount
+
+    def check_screen_size(self):
+        resized = False
+        if self.fullscreen:
+            width, height = get_terminal_size()
+            if width != self.dim.x:
+                self.dim.x = width
+                resized = True
+            if height != self.dim.y:
+                self.dim.y = height
+                resized = True
+            if resized:
+                clear_screen()
+
     def render(self):
-        hide()
-        clear_screen()
-        try:
-            while True:
+        pre_points = []
+        while True:
 
-                for index, rain in enumerate(self.rain):
-                    point, tail = rain.update()
+            self.check_screen_size()
 
-                    if point is None and tail is None:
-                        self.rain.pop(index)
-                        self.rain.append(
-                            Rain(
-                                self.dim.x,
-                                self.dim.y,
-                                self.tail_len(),
-                                idx=self.ran_loc(),
-                            )
+            for index, rain in enumerate(self.rain):
+                point, tail, color = rain.update()
+                c = self.get_letter()
+                if point is None and tail is None:
+                    self.rain.pop(index)
+                    self.rain.append(
+                        Rain(
+                            self.dim.x,
+                            self.dim.y,
+                            self.tail_len(),
+                            idx=self.ran_loc(),
+                            color=ran_color(),
                         )
-                    if point is not None:
-                        x, y = point
-                        print_at(Pixel(self.get_letter(), None, fg="green"), x, y)
-                    if tail is not None:
-                        x, y = tail
-                        print_at(" ", x, y)
-                sleep(0.1)
-        except Exception as e:
-            print(e)
-        finally:
-            clear_screen()
-            show()
+                    )
+                if point is not None:
+                    x, y = point
+                    print_at(Pixel(c, None, fg="bright white"), x, y)
+
+                if rain.last is not None:
+                    k, x, y = rain.last
+                    print_at(Pixel(k, None, fg=color), x, y)
+
+                if tail is not None:
+                    x, y = tail
+                    print_at(" ", x, y)
+                rain.last_update(c, point)
+
+            sleep(0.1)
 
     def tail_len(self):
         low, high = self.max_rain
@@ -100,7 +176,7 @@ class Screen:
 
     def ran_loc(self, anywhere=False):
         if anywhere:
-            return randint(1, self.dim.x*self.dim.y)
+            return randint(1, self.dim.x * self.dim.y)
         else:
             return randint(0, self.dim.x)
 
@@ -112,5 +188,4 @@ class Screen:
     @staticmethod
     def get_letter():
         return choice(ascii_letters + punctuation)
-
 
