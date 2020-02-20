@@ -97,7 +97,13 @@ class Rain:
 
 class Screen:
     def __init__(
-        self, width=10, height=20, fullscreen=True, amount=20, max_rain=(9, 5)
+        self,
+        width=10,
+        height=20,
+        fullscreen=True,
+        amount=20,
+        max_rain=(9, 5),
+        char_type="e",
     ):
         self.dim = Vector2(width, height)
         self.fullscreen = fullscreen
@@ -105,6 +111,7 @@ class Screen:
         self._amount = amount
         self.amount = self._set_amount()
         self.max_rain = max_rain
+        self.charaters = self.make_char_list(char_type)
         self.rain = [
             Rain(
                 self.dim.x,
@@ -115,6 +122,12 @@ class Screen:
             )
             for _ in range(self.amount)
         ]
+
+    def make_char_list(self, char_type):
+        if char_type == "e":
+            return ascii_letters + punctuation
+        elif char_type == "j":
+            return [chr(i) for i in range(65382, 65437)]
 
     def _set_amount(self):
         if self._amount == "half":
@@ -144,6 +157,8 @@ class Screen:
             for index, rain in enumerate(self.rain):
                 point, tail, color = rain.update()
                 c = self.get_letter()
+                # c = self.get_char()
+                # c = chr(9617)
                 if point is None and tail is None:
                     self.rain.pop(index)
                     self.rain.append(
@@ -180,12 +195,10 @@ class Screen:
         else:
             return randint(0, self.dim.x)
 
+    def get_letter(self):
+        return choice(self.charaters)
+
     @staticmethod
     def rotated(array_2d):
         list_of_tuples = zip(*array_2d[::-1])
         return [list(elem) for elem in list_of_tuples]
-
-    @staticmethod
-    def get_letter():
-        return choice(ascii_letters + punctuation)
-

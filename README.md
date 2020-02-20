@@ -52,6 +52,10 @@ clitui matrix
 in terminal and watch it rain!
 
 ![matrix_rain2](https://user-images.githubusercontent.com/43012445/67877665-fbd69e00-fb07-11e9-8093-794dd2f8a66f.gif)
+```
+clitui matrix j
+```
+![jap_matrix_rain2](https://user-images.githubusercontent.com/43012445/67978841-0026b800-fbe9-11e9-96a4-d5d6f558b50a.gif)
 
 You can place Labels
 It's not perfect but it works pretty well.
