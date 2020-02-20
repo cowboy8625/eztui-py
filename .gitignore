@@ -1,4 +1,6 @@
-
+PipFile
+PipFile.lock
+HELP.md
 .DS_Store
 __pycache__
 log.txt
@@ -24,3 +26,5 @@ build
 /*.egg-info
 .ropeproject
 tags
+matrix.py
+

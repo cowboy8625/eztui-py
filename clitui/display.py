@@ -5,8 +5,8 @@ from os import system, name, O_NONBLOCK
 from termios import tcgetattr, ICANON, TCSANOW, ECHO, TCSAFLUSH, tcsetattr
 from textwrap import wrap
 
-from font import fg_by, bg_by, format_color, style_by
-from curser_control import hide, show
+from .font import fg_by, bg_by, format_color, style_by
+from .curser_control import hide, show
 
 
 def print_at(x, y, ch, style=None, fg=None, bg=None):
