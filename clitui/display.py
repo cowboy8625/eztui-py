@@ -14,19 +14,27 @@ def print_at(x, y, ch, style=None, fg=None, bg=None):
     print(*char, sep="", end="", file=stdout, flush=False)
 
 
+def test(x, y):
+    print("\x1b[H\x1b[2J")
+    name = input("Name:> ")
+    print("\x1b[s")
+    print(f"\x1b[{y};{x}H{name}")
+    print("\x1b8")
+
+
 def clear():
-    system("cls" if name == "nt" else "clear")
+    print("\x1b[2J", sep="", end="", file=stdout, flush=False)
+
+    # system("cls" if name == "nt" else "clear")
 
 
 def safe_run(func):
-    # clear()
     hide()
     try:
         func()
     except Exception as e:
         print(e)
     finally:
-        # clear()
         show()
 
 
@@ -63,6 +71,7 @@ def is_pressed(looking, key):
         "ESC": "\x1b",
         "ENTER": "\n",
         "TAB": "\t",
+        "BACKSPACE": "\b",
         "BAR": " ",
     }.get(looking, None)
     if key == k:
@@ -151,7 +160,7 @@ def draw_line(
 
 
 def draw_circle(x, y, r, ch="#", fg=None, bg=None):
-    for x, y in _create_points(x, y, r, 1, 360):
+    for x, y in set(_create_points(x, y, r, 1, 360)):
         print_at(x, y, ch=ch, fg=bg, bg=bg)
 
 

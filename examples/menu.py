@@ -1,9 +1,14 @@
-from clitui import Menu, getchar, fg_by, bg_by, safe_run, is_pressed
+import time
+from clitui import Menu, getchar, fg_by, bg_by, safe_run, is_pressed, clear
+
+
+def foo(x, y, z):
+    return x + y + z
 
 
 FG_CYAN = fg_by(0, 160, 160)
 
-main_menu = Menu("Main Menu", x=10, y=10)
+main_menu = Menu("Main Menu", x=10, y=10, border=True, btype=2)
 options_menu = Menu("Options Menu")
 key_controls = Menu("Key Controler")
 
@@ -27,10 +32,16 @@ main_menu.create()
 
 
 def main():
+    last = time.time()
     while True:
+        if time.time() - last > 0.5:
+            clear()
+            last = time.time()
         key = getchar()
         main_menu.draw()
-        main_menu.move_curser(key)
+        action = main_menu.move_curser(key)
+        if action is not None:
+            action()
 
         if is_pressed("ESC", key):
             exit()
@@ -38,4 +49,3 @@ def main():
 
 # main()
 safe_run(main)
-# print_at(0, 30, "END")
