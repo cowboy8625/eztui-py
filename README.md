@@ -28,6 +28,9 @@ https://github.com/cowboy8625/WordRPG
 here is a example on how to use clitui
 code found in projects examples folder.
 
+
+![menu](https://user-images.githubusercontent.com/43012445/75123819-7e173f00-5670-11ea-9504-b2a0b7539a98.gif)
+
 ```py
 #  First off we import all the things needed for this
 #  example

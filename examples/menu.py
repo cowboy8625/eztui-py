@@ -8,7 +8,7 @@ def foo(x, y, z):
 
 FG_CYAN = fg_by(0, 160, 160)
 
-main_menu = Menu("Main Menu", x=10, y=10, border=True, btype=2)
+main_menu = Menu("Main Menu", x=25, y=5, border=True, btype=2)
 options_menu = Menu("Options Menu")
 key_controls = Menu("Key Controler")
 
